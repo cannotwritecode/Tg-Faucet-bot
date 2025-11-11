@@ -12,7 +12,7 @@ class ProviderService {
       this.provider = new ethers.JsonRpcProvider(config.rpcUrl);
       console.log("Provider Initialized");
     } catch (error) {
-      console.error("Failes to initialize provider:", error);
+      console.error("Failed to initialize provider:", error);
       throw error;
     }
   }
@@ -39,6 +39,9 @@ class ProviderService {
   async getBlockNumber() {
     return await this.provider.getBlockNumber();
   }
+  async isValidAddress(address) {
+    return ethers.isAddress(address);
+  }
 
   async getFeeData() {
     const feeData = await this.provider.getFeeData();
@@ -61,13 +64,17 @@ class ProviderService {
       },
     };
   }
-  async getBalance(address) {
-    const balanceWei = await this.provider.getBalance(address);
 
-    return {
-      wei: balanceWei.toString(),
-      eth: ethers.formatEther(balanceWei),
+  async estimateGas(toAddress, fromWallet, amountInEth) {
+    const tx = {
+      to: toAddress,
+      value: ethers.parseEther(amountInEth.toString()),
     };
+
+    // provider estimates gas usuage for this transaction
+    const gasEstimate = await provider.estimateGas(tx);
+
+    return gasEstimate;
   }
 
   async getTransactionCount(address) {
@@ -76,10 +83,6 @@ class ProviderService {
 
   async waitForTransaction(txHash, confirmations = 1) {
     return await this.provider.waitForTransaction(txHash, confirmations);
-  }
-
-  async estimateGas(transaction) {
-    return await this.provider.estimateGas(transaction);
   }
 
   getProvider() {

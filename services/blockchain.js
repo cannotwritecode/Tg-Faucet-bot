@@ -3,6 +3,8 @@ const config = require("../config/config");
 
 class BlockchainService {
   constructor() {
+    const blockchain = new BlockchainService();
+
     //Connecting to Sepolia
     this.provider = new ethers.JsonRpcProvider(config.rpcUrl);
 
@@ -12,3 +14,9 @@ class BlockchainService {
     this.minBalanceAlert = ethers.parseEther(config.minBalanceAlert);
   }
 }
+
+async function main() {
+  const blockchain = new BlockchainService();
+}
+
+main().catch(console.error);

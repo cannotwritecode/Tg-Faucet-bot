@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const config = {
+  botToken: process.env.BOT_TOKEN,
   rpcUrl: process.env.SEPOLIA_RPC_URL,
   privateKey: process.env.WALLET_PRIVATE_KEY,
   faucetAmount: process.env.FAUCET_AMOUNT || "0.01",
