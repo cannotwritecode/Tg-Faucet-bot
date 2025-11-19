@@ -20,8 +20,7 @@
   "homepage": "https://github.com/Phoenixxyy14/Telegram-Bot#readme",
   "dependencies": {
     "dotenv": "^17.2.3",
-    "ethers": "^6.15.0",
-    "node-telegram-bot-api": "^0.66.0"
+    "ethers": "^6.15.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
