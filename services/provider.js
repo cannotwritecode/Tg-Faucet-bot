@@ -9,11 +9,15 @@ class ProviderService {
 
   initialize() {
     try {
+      if (!config.rpcUrl) {
+        console.warn("Provider skipped: No RPC URL");
+        return;
+      }
       this.provider = new ethers.JsonRpcProvider(config.rpcUrl);
       console.log("Provider Initialized");
     } catch (error) {
       console.error("Failed to initialize provider:", error);
-      throw error;
+      // throw error; // Don't crash
     }
   }
 

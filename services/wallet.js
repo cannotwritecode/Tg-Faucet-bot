@@ -11,13 +11,21 @@ class WalletService {
   initialize() {
     try {
       const provider = providerService.getProvider();
+      if (!provider) {
+        console.warn("Wallet skipped: No Provider");
+        return;
+      }
+      if (!config.privateKey) {
+        console.warn("Wallet skipped: No Private Key");
+        return;
+      }
       this.wallet = new ethers.Wallet(config.privateKey, provider);
 
       console.log("Wallet Initialized");
       console.log("Wallet Address:", this.wallet.address);
     } catch (error) {
       console.error("Failed to initialize wallet:", error);
-      throw error;
+      // throw error; // Don't crash
     }
   }
 

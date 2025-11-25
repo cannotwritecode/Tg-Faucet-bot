@@ -32,7 +32,7 @@ function validateConfig() {
   if (errors.length > 0) {
     console.error("Configuration errors:");
     errors.forEach((error) => console.error(`  - ${error}`));
-    throw new Error("Invalid configuration");
+    // throw new Error("Invalid configuration"); // Don't crash, just log
   }
 }
 

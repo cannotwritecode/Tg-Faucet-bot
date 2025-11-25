@@ -5,8 +5,8 @@ const walletService = require("../services/wallet");
 
 const userLastRequest = new Map();
 
-const provider = providerService.getProvider();
-const wallet = walletService.getWallet();
+// const provider = providerService.getProvider(); // Moved inside handler
+// const wallet = walletService.getWallet(); // Moved inside handler
 
 async function handler(req, res) {
   if (req.method !== "POST") {
@@ -25,6 +25,16 @@ async function handler(req, res) {
     const msg = update.message;
     const chatId = msg.chat.id;
     const text = msg.text || "";
+
+    // Check for maintenance mode
+    const provider = providerService.getProvider();
+    const wallet = walletService.getWallet();
+
+    if (!provider || !wallet) {
+      console.warn("Maintenance mode: Provider or Wallet not initialized");
+      await sendMessage(chatId, "⚠️ Bot is in maintenance mode. (Configuration Error)");
+      return res.status(200).send("ok");
+    }
 
     // /start
     if (text.startsWith("/start")) {
