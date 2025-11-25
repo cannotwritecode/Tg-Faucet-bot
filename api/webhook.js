@@ -1,7 +1,7 @@
-import { ethers } from "ethers";
-import config from "../config/config.js";
-import providerService from "../services/provider.js";
-import walletService from "../services/wallet.js";
+const { ethers } = require("ethers");
+const config = require("../config/config.js");
+const providerService = require("../services/provider.js");
+const walletService = require("../services/wallet.js");
 
 const userLastRequest = new Map();
 
