@@ -1,9 +1,9 @@
 const express = require("express");
-const bodyParser = require("body-parser");
+
 const handler = require("./api/webhook");
 
 const app = express();
-app.use(bodyParser.json());
+app.use(express.json());
 
 // webhook endpoint
 app.post("/webhook", handler);

@@ -13,6 +13,8 @@ async function handler(req, res) {
     return res.status(200).send("Bot is running");
   }
 
+  console.log("Received webhook update:", JSON.stringify(req.body, null, 2));
+
   const update = req.body;
 
   try {
@@ -97,14 +99,25 @@ async function handler(req, res) {
 async function sendMessage(chatId, text) {
   const url = `https://api.telegram.org/bot${process.env.BOT_TOKEN}/sendMessage`;
 
-  await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      chat_id: chatId,
-      text: text,
-    }),
-  });
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: text,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`Telegram API Error: ${response.status} ${response.statusText}`, errorText);
+    } else {
+      console.log(`Message sent to ${chatId}`);
+    }
+  } catch (error) {
+    console.error("Failed to send message:", error);
+  }
 }
 
 module.exports = handler;
